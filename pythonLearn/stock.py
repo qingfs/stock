@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from docx import Document
 
 from docx.enum.text import WD_ALIGN_PARAGRAPH
@@ -19,6 +20,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import os
+
+import matplotlib as mpl
+
+mpl.rcParams['font.sans-serif'] = ['KaiTi', 'SimHei', 'FangSong']  #汉字字体,优先使用楷体，如果找不到楷体，则使用黑体
+mpl.rcParams['font.size'] = 12  # 字体大小
+mpl.rcParams['axes.unicode_minus'] = False
+
+
 
 
 
@@ -70,11 +79,11 @@ for i in data_list:
 
             txt = soup1.text.replace('(万元)','').replace('--','0')
 
-            csv = open(r'C:\Users\admin\Desktop\python_data\财务分析\数据采集\%s%s.csv'%(stock_code,i),'w',encoding='utf-8') .write(txt)
+            csv = open(r'F:\stock\python_data\财务分析\数据采集\%s%s.csv'%(stock_code,i),'w',encoding='utf-8') .write(txt)
 
 
 
-            data = pd.read_csv(r'C:\Users\admin\Desktop\python_data\财务分析\数据采集\%s%s.csv'%(stock_code,i))
+            data = pd.read_csv(r'F:\stock\python_data\财务分析\数据采集\%s%s.csv'%(stock_code,i))
 
             list1 = list(range(int(data.columns[-2][:4]), int(data.columns[1][:4]) + 1))[::-1]
 
@@ -82,7 +91,7 @@ for i in data_list:
 
             data.columns = new_list
 
-            writer = pd.ExcelWriter(r'C:\Users\admin\Desktop\python_data\财务分析\数据采集\%s%s.xlsx' %(stock_code,i))
+            writer = pd.ExcelWriter(r'F:\stock\python_data\财务分析\数据采集\%s%s.xlsx' %(stock_code,i))
 
             data.to_excel(writer,index=False)
 
@@ -92,13 +101,13 @@ for i in data_list:
 
 
 
-            p_list = os.listdir(r'C:\Users\admin\Desktop\python_data\财务分析\数据采集')
+            p_list = os.listdir(r'F:\stock\python_data\财务分析\数据采集')
 
             for name in p_list:
 
                 if name.endswith('.csv'):
 
-                    os.remove(r'C:\Users\admin\Desktop\python_data\财务分析\数据采集\%s%s.csv'%(stock_code,i))
+                    os.remove(r'F:\stock\python_data\财务分析\数据采集\%s%s.csv'%(stock_code,i))
 
 
 
@@ -106,13 +115,13 @@ for i in data_list:
 
                 #读取已有数据并按照所需的列数进行合并
 
-path_list = os.listdir(r'C:\Users\admin\Desktop\python_data\财务分析\数据采集')
+path_list = os.listdir(r'F:\stock\python_data\财务分析\数据采集')
 
 data = pd.DataFrame()
 
 for path in path_list:
 
-    fp = r'C:\Users\admin\Desktop\python_data\财务分析\数据采集\%s' % (path)
+    fp = r'F:\stock\python_data\财务分析\数据采集\%s' % (path)
 
     dfs = pd.read_excel(fp,None,usecols=y_list)
 
@@ -284,7 +293,7 @@ def fig(x,y):
 
     plt.legend(loc = 'upper right')
 
-    fig.savefig(r'C:\Users\admin\Desktop\python_data\财务分析\成果展示\%s.png'% y)
+    fig.savefig(r'F:\stock\python_data\财务分析\成果展示\%s.png'% y)
 
     return fig
 
@@ -524,7 +533,7 @@ czn_bh = czn.std(axis = 1)
 
 
 
-writer = pd.ExcelWriter(r'C:\Users\admin\Desktop\python_data\财务分析\成果展示\%s%s年至%s年财务分析基数数据表.xlsx' %(c_name,st,et))
+writer = pd.ExcelWriter(r'F:\stock\python_data\财务分析\成果展示\%s%s年至%s年财务分析基数数据表.xlsx' %(c_name,st,et))
 
 zy.to_excel(writer,sheet_name='财报主要数据表')
 
@@ -680,7 +689,7 @@ run22.font.size = Pt(10)
 
 #插入财报主要数据变化趋势图
 
-tu1 = d1.add_picture(r'C:\Users\admin\Desktop\python_data\财务分析\成果展示\财务主要数据变化趋势图.png',width=Inches(6),height=Inches(4))
+tu1 = d1.add_picture(r'F:\stock\python_data\财务分析\成果展示\财务主要数据变化趋势图.png',width=Inches(6),height=Inches(4))
 
 tu1.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
@@ -738,7 +747,7 @@ run31.font.size = Pt(10)
 
 #
 
-tu2 = d1.add_picture(r'C:\Users\admin\Desktop\python_data\财务分析\成果展示\资产结构变化趋势图.png',width=Inches(6),height=Inches(4))
+tu2 = d1.add_picture(r'F:\stock\python_data\财务分析\成果展示\资产结构变化趋势图.png',width=Inches(6),height=Inches(4))
 
 tu2.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
@@ -796,7 +805,7 @@ run41.font.size = Pt(10)
 
 
 
-tu3 = d1.add_picture(r'C:\Users\admin\Desktop\python_data\财务分析\成果展示\负债结构变化趋势图.png',width=Inches(6),height=Inches(4))
+tu3 = d1.add_picture(r'F:\stock\python_data\财务分析\成果展示\负债结构变化趋势图.png',width=Inches(6),height=Inches(4))
 
 tu3.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
@@ -854,7 +863,7 @@ run51.font.size = Pt(10)
 
 
 
-tu4 = d1.add_picture(r'C:\Users\admin\Desktop\python_data\财务分析\成果展示\股本结构变化趋势图.png',width=Inches(6),height=Inches(4))
+tu4 = d1.add_picture(r'F:\stock\python_data\财务分析\成果展示\股本结构变化趋势图.png',width=Inches(6),height=Inches(4))
 
 tu4.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
@@ -904,7 +913,7 @@ run61.font.size = Pt(10)
 
 
 
-tu5 = d1.add_picture(r'C:\Users\admin\Desktop\python_data\财务分析\成果展示\利润表主要数据变化趋势图.png',width=Inches(6),height=Inches(4))
+tu5 = d1.add_picture(r'F:\stock\python_data\财务分析\成果展示\利润表主要数据变化趋势图.png',width=Inches(6),height=Inches(4))
 
 tu5.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
@@ -954,7 +963,7 @@ run71.font.size = Pt(10)
 
 #
 
-tu6 = d1.add_picture(r'C:\Users\admin\Desktop\python_data\财务分析\成果展示\现金流量表主要数据变化趋势图.png',width=Inches(6),height=Inches(4))
+tu6 = d1.add_picture(r'F:\stock\python_data\财务分析\成果展示\现金流量表主要数据变化趋势图.png',width=Inches(6),height=Inches(4))
 
 tu6.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
@@ -998,7 +1007,7 @@ run81.font.size = Pt(10)
 
 
 
-tu7 = d1.add_picture(r'C:\Users\admin\Desktop\python_data\财务分析\成果展示\偿债能力主要指标变化趋势图.png',width=Inches(6),height=Inches(4))
+tu7 = d1.add_picture(r'F:\stock\python_data\财务分析\成果展示\偿债能力主要指标变化趋势图.png',width=Inches(6),height=Inches(4))
 
 tu7.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
@@ -1042,7 +1051,7 @@ run91.font.size = Pt(10)
 
 
 
-tu8 = d1.add_picture(r'C:\Users\admin\Desktop\python_data\财务分析\成果展示\盈利能力主要指标变化趋势图.png',width=Inches(6),height=Inches(4))
+tu8 = d1.add_picture(r'F:\stock\python_data\财务分析\成果展示\盈利能力主要指标变化趋势图.png',width=Inches(6),height=Inches(4))
 
 tu8.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
@@ -1084,7 +1093,7 @@ run101.font.size = Pt(10)
 
 
 
-tu9 = d1.add_picture(r'C:\Users\admin\Desktop\python_data\财务分析\成果展示\运营能力主要指标变化趋势图.png',width=Inches(6),height=Inches(4))
+tu9 = d1.add_picture(r'F:\stock\python_data\财务分析\成果展示\运营能力主要指标变化趋势图.png',width=Inches(6),height=Inches(4))
 
 tu9.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
@@ -1124,7 +1133,7 @@ run111.font.size = Pt(10)
 
 
 
-tu10 = d1.add_picture(r'C:\Users\admin\Desktop\python_data\财务分析\成果展示\成长能力主要指标变化趋势图.png',width=Inches(6),height=Inches(4))
+tu10 = d1.add_picture(r'F:\stock\python_data\财务分析\成果展示\成长能力主要指标变化趋势图.png',width=Inches(6),height=Inches(4))
 
 tu10.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
@@ -1132,5 +1141,5 @@ tu10.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
 
 
-d1.save(r'C:\Users\admin\Desktop\python_data\财务分析\成果展示\%s%s年度至%s年度财务分析.docx' % (c_name,st,et))
+d1.save(r'F:\stock\python_data\财务分析\成果展示\%s%s年度至%s年度财务分析.docx' % (c_name,st,et))
 
