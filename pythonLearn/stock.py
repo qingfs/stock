@@ -123,24 +123,26 @@ for path in path_list:
 
     fp = r'F:\stock\python_data\财务分析\数据采集\%s' % (path)
 
+    # 读取excel，并指定cols为y_list的值
     dfs = pd.read_excel(fp,None,usecols=y_list)
-
+    # 获取所有sheet
     keys = dfs.keys()
 
     for i in keys:
-
+        # 获取单个sheet
         df1 = dfs[i]
-
+        # 表格合并
         data = pd.concat([df1,data])
-
+        # 填充缺失值为0
         data = data.fillna(0)
-
+        # 移除指定字符
         data['报告日期'] =data['报告日期'].str.strip()
-
+        # 返回删除了重复行的 DataFrame。
         data = data.drop_duplicates(subset=['报告日期'],keep='first')
 
+# 使用现有列设置 DataFrame 索引。
 data = data.set_index('报告日期')
-
+# 从行或列中删除指定的标签， axis=1：从索引为1的列开始
 hb = data.drop('%s年'% (int(st)-1),axis=1)
 
 

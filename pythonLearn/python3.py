@@ -23,6 +23,13 @@ import matplotlib.pyplot as plt
 import os
 import chardet
 
+import sys
+sys.path.append('../stockFunc')
+import calendar
+
+
+import html2text as ht
+
 
 c_name = '福耀玻璃'
 
@@ -80,13 +87,16 @@ def stock():
                 if name.endswith('.csv'):
                     os.remove(r'F:\stock\python_data\%s%s.xlsx'%(stock_code,'zcfzb'))
 
-    path_list = os.listdir(r'C:\Users\admin\Desktop\python_data\财务分析\数据采集')
+#读取已有数据并按照所需的列数进行合并
+def stock2():
+
+    path_list = os.listdir(r'F:\stock\python_data\财务分析\数据采集')
 
     data = pd.DataFrame()
 
     for path in path_list:
 
-        fp = r'C:\Users\admin\Desktop\python_data\财务分析\数据采集\%s' % (path)
+        fp = r'F:\stock\python_data\财务分析\数据采集\%s' % (path)
 
         dfs = pd.read_excel(fp,None,usecols=y_list)
 
@@ -108,9 +118,21 @@ def stock():
 
     hb = data.drop('%s年'% (int(st)-1),axis=1)
 
+    print(hb)
+
 
 
 
 if __name__ == '__main__':
-    stock()
+    text_maker = ht.HTML2Text()
+    # text_maker.ignore_links = True
+    text_maker.bypass_tables = False
+    file_path = r'G:\tmp\stodownload.html'
+    htmlfile = open(file_path, 'r', encoding='UTF-8')
+    htmlpage = htmlfile.read()
+    text = text_maker.handle(htmlpage)
+    open("1.md", "w").write(text)
+
+
+
 
